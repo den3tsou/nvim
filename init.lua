@@ -1,0 +1,2 @@
+require("den")
+print("hello")
