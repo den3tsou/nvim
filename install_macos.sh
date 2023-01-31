@@ -8,7 +8,7 @@ rm -rf /usr/local/bin/nvim
 mkdir ~/.config/nvim
 pushd ~/.config/nvim
 
-brew install neovim
+brew install neovim ripgrep
 
 # install packer
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
