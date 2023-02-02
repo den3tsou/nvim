@@ -5,9 +5,6 @@ rm -rf ~/.local/share/nvim
 rm -rf ~/.local/state/nvim
 rm -rf /usr/local/bin/nvim
 
-mkdir ~/.config/nvim
-pushd ~/.config/nvim
-
 brew install neovim ripgrep
 
 # install packer
