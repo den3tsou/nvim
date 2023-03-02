@@ -7,7 +7,17 @@ vim.keymap.set('n', '<leader>fc', builtin.commands, {})
 vim.keymap.set('n', '<leader>fr', builtin.registers, {})
 vim.keymap.set('n', '<leader>fg', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>fgb', builtin.git_bcommits, {})
--- vim.keymap.set('n', '<leader>f', function()
---   builtin.grep_string({ search = vim.fn.input("Grep > ") });
--- end)
+
+local actions = require "telescope.actions"
+require("telescope").setup {
+  pickers = {
+    buffers = {
+      mappings = {
+        i = {
+          ["<c-x>"] = actions.delete_buffer + actions.move_to_top,
+        }
+      }
+    }
+  }
+}
 
