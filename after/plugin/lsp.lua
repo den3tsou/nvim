@@ -8,6 +8,7 @@ lsp.ensure_installed({
   'rust_analyzer',
   'tsserver',
   'eslint',
+  'clangd',
 })
 
 -- (Optional) Configure lua language server for neovim
@@ -38,7 +39,7 @@ lsp.on_attach(function(client, bufnr)
     local opts = {buffer = bufnr}
     local set = vim.keymap.set
 
-    vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
+    -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
 
     set('n', 'H', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
     set('n', '<C-]>', '<CMD>lua vim.lsp.buf.definition()<CR>', opts)
@@ -49,7 +50,7 @@ lsp.on_attach(function(client, bufnr)
     set('n', '<C-k>', '<CMD>lua vim.lsp.buf.signature_help()<CR>', opts)
     set('n', '<leader>rn', '<CMD>lua vim.lsp.buf.rename()<CR>', opts)
     set('n', '<leader>ca', '<CMD>lua vim.lsp.buf.code_action()<CR>', opts)
-    -- set('n', '<leader>f', '<CMD>lua vim.lsp.buf.format({async = true})<CR>', opts)
+    set('n', '<leader>f', '<CMD>lua vim.lsp.buf.format({async = true})<CR>', opts)
     -- this is for call hierarchy
     set('n', 'ghi', '<CMD>lua vim.lsp.buf.incoming_calls()<CR>', opts)
     set('n', 'gho', '<CMD>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
