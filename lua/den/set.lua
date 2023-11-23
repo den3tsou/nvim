@@ -23,6 +23,22 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.wrap = false
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { "*" },
+  callback = function(args)
+    local ft = vim.bo[args.buf].filetype
+    if ft == "typescriptreact" then
+      vim.bo.tabstop = 2
+      vim.bo.shiftwidth = 2
+      vim.bo.softtabstop = 2
+    elseif ft == "typescript" then
+      vim.bo.tabstop = 2
+      vim.bo.shiftwidth = 2
+      vim.bo.softtabstop = 2
+    end
+  end
+})
+
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
