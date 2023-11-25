@@ -28,15 +28,15 @@ local cmp = require('cmp')
 -- })
 --
 lsp.setup_nvim_cmp({
-  mapping = lsp.defaults.cmp_mappings({
-    ['<C-o>'] = cmp.mapping.confirm(),
-    ['<CR>'] = vim.NIL,
-  })
+    mapping = lsp.defaults.cmp_mappings({
+        ['<C-o>'] = cmp.mapping.confirm(),
+        ['<CR>'] = vim.NIL,
+    })
 })
 
 
 lsp.on_attach(function(client, bufnr)
-    local opts = {buffer = bufnr}
+    local opts = { buffer = bufnr }
     local set = vim.keymap.set
 
     -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
