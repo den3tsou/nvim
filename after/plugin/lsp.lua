@@ -1,18 +1,21 @@
 -- Learn the keybindings, see :help lsp-zero-keybindings
 -- Learn to configure LSP servers, see :help lsp-zero-api-showcase
 local lsp = require('lsp-zero')
-lsp.preset('recommended')
 
-lsp.ensure_installed({
-  'gopls',
-  'rust_analyzer',
-  'tsserver',
-  'eslint',
-  'clangd',
+require('mason').setup({})
+require('mason-lspconfig').setup({
+  handlers = {
+    lsp.default_setup,
+  },
+  ensure_installed = {
+    "gopls",
+    "tsserver",
+    "rust_analyzer",
+    "eslint",
+    "clangd",
+    "lua_ls",
+  }
 })
-
--- (Optional) Configure lua language server for neovim
-lsp.nvim_workspace()
 
 lsp.set_preferences({
     set_lsp_keymaps = false,
@@ -20,18 +23,11 @@ lsp.set_preferences({
 
 local cmp = require('cmp')
 
--- this is used when default is not wanted
--- lsp.setup_nvim_cmp({
---   mapping = cmp.mapping.preset.insert({
---     ['<C-o>'] = cmp.mapping.complete(),
---   })
--- })
---
-lsp.setup_nvim_cmp({
-    mapping = lsp.defaults.cmp_mappings({
-        ['<C-o>'] = cmp.mapping.confirm(),
-        ['<CR>'] = vim.NIL,
-    })
+require('cmp').setup({
+  mappings = cmp.mapping.preset.insert({
+    ['<C-o>'] = cmp.mapping.confirm(),
+    ['<CR>'] = vim.NIL,
+  })
 })
 
 
