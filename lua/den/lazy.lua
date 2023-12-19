@@ -23,7 +23,6 @@ require("lazy").setup({
   { 'tpope/vim-fugitive' },
   {
     'VonHeikemen/lsp-zero.nvim', branch = 'v3.x',
-    lazy = true, config = false,
     dependencies = {
       -- LSP Support
       {'neovim/nvim-lspconfig'},             -- Required
@@ -43,6 +42,7 @@ require("lazy").setup({
       {'rafamadriz/friendly-snippets'}, -- Optional
     }
   },
+  { 'windwp/nvim-ts-autotag' },
   -- probably install harpoon?
   -- probably install undotree?
 })

@@ -26,7 +26,7 @@ local cmp = require('cmp')
 require('cmp').setup({
   mappings = cmp.mapping.preset.insert({
     ['<C-o>'] = cmp.mapping.confirm(),
-    ['<CR>'] = vim.NIL,
+    ['<CR>'] = vim.NIL
   })
 })
 
