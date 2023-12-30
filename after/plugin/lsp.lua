@@ -4,17 +4,17 @@ local lsp = require('lsp-zero')
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  handlers = {
-    lsp.default_setup,
-  },
-  ensure_installed = {
-    "gopls",
-    "tsserver",
-    "rust_analyzer",
-    "eslint",
-    "clangd",
-    "lua_ls",
-  }
+    handlers = {
+        lsp.default_setup,
+    },
+    ensure_installed = {
+        "gopls",
+        "tsserver",
+        "rust_analyzer",
+        "eslint",
+        "clangd",
+        "lua_ls",
+    }
 })
 
 lsp.set_preferences({
@@ -24,10 +24,10 @@ lsp.set_preferences({
 local cmp = require('cmp')
 
 require('cmp').setup({
-  mappings = cmp.mapping.preset.insert({
-    ['<C-o>'] = cmp.mapping.confirm(),
-    ['<CR>'] = vim.NIL
-  })
+    mappings = cmp.mapping.preset.insert({
+        ['<C-o>'] = cmp.mapping.confirm({ select = false }),
+        ['<CR>'] = vim.NIL
+    })
 })
 
 
@@ -39,9 +39,9 @@ lsp.on_attach(function(client, bufnr)
 
     set('n', 'H', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
     set('n', '<C-]>', '<CMD>lua vim.lsp.buf.definition()<CR>', opts)
-    set('n', '<C-[>', '<CMD>lua vim.lsp.buf.declaration()<CR>', opts)
+    set('n', '<C-[>', '<CMD>lua vim.lsp.buf.type_definition()<CR>', opts)
+    -- set('n', '<C-[>', '<CMD>lua vim.lsp.buf.declaration()<CR>', opts)
     set('n', 'gi', '<CMD>lua vim.lsp.buf.implementation()<CR>', opts)
-    set('n', 'gt', '<CMD>lua vim.lsp.buf.type_definition()<CR>', opts)
     set('n', 'gr', '<CMD>lua vim.lsp.buf.references()<CR>', opts)
     set('n', '<C-k>', '<CMD>lua vim.lsp.buf.signature_help()<CR>', opts)
     set('n', '<leader>rn', '<CMD>lua vim.lsp.buf.rename()<CR>', opts)
