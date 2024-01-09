@@ -25,7 +25,13 @@ require("lazy").setup({
     'VonHeikemen/lsp-zero.nvim', branch = 'v3.x',
     dependencies = {
       -- LSP Support
-      {'neovim/nvim-lspconfig'},             -- Required
+      {
+        'neovim/nvim-lspconfig', -- Required
+        -- this can be enabled on neovim 0.10 is used
+        -- opts = {
+        --   inlay_hints = { enabled = true }
+        -- }
+      },
       {'williamboman/mason.nvim'},           -- Optional
       {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
