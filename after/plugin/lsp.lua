@@ -48,7 +48,7 @@ lsp.on_attach(function(client, bufnr)
     set('n', '<leader>ca', '<CMD>lua vim.lsp.buf.code_action()<CR>', opts)
     set('n', '<leader>f', '<CMD>lua vim.lsp.buf.format({async = true})<CR>', opts)
     set('n', '<leader>n', ':bnext<CR>', opts)
-    set('n', '<leader>p', ':bprevious<CR>', opts)
+    set('n', '<leader>m', ':bprevious<CR>', opts)
     -- this is for call hierarchy
     set('n', 'ghi', '<CMD>lua vim.lsp.buf.incoming_calls()<CR>', opts)
     set('n', 'gho', '<CMD>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
