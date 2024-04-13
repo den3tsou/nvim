@@ -23,11 +23,63 @@ lsp.set_preferences({
 
 local cmp = require('cmp')
 
-require('cmp').setup({
-    mappings = cmp.mapping.preset.insert({
+cmp.setup({
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+        { name = 'path' },
+        { name = 'luasnip' },
+    },
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end,
+    },
+    -- preselect = 'item',
+    -- completion = {
+    --     completeopt = 'menu,menuone,noinsert'
+    -- },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
+    mapping = {
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-d>"] = cmp.mapping.scroll_docs(4),
         ['<C-o>'] = cmp.mapping.confirm({ select = false }),
-        ['<CR>'] = vim.NIL
-    })
+        ['<C-p>'] = cmp.mapping(function()
+            if cmp.visible() then
+                cmp.select_prev_item({ behavior = 'insert' })
+            else
+                cmp.complete()
+            end
+        end),
+        ['<C-n>'] = cmp.mapping(function()
+            if cmp.visible() then
+                cmp.select_next_item({ behavior = 'insert' })
+            else
+                cmp.complete()
+            end
+        end),
+    },
+    formatting = {
+        -- changing the order of fields so the icon is the first
+        fields = { 'menu', 'abbr', 'kind' },
+
+        -- here is where the change happens
+        format = function(entry, item)
+            local menu_icon = {
+                nvim_lsp = 'λ',
+                luasnip = '⋗',
+                buffer = 'Ω',
+                path = '🖫',
+                nvim_lua = 'Π',
+            }
+
+            item.menu = menu_icon[entry.source.name]
+            return item
+        end,
+    },
 })
 
 

@@ -34,24 +34,37 @@ require("lazy").setup({
                 --   inlay_hints = { enabled = true }
                 -- }
             },
-            { 'williamboman/mason.nvim' },   -- Optional
+            { 'williamboman/mason.nvim' },           -- Optional
             { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
             -- Autocompletion
-            { 'hrsh7th/nvim-cmp' }, -- Required
-            { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-            { 'hrsh7th/cmp-buffer' }, -- Optional
-            { 'hrsh7th/cmp-path' }, -- Optional
+            { 'hrsh7th/nvim-cmp' },         -- Required
+            { 'hrsh7th/cmp-nvim-lsp' },     -- Required
+            { 'hrsh7th/cmp-buffer' },       -- Optional
+            { 'hrsh7th/cmp-path' },         -- Optional
             { 'saadparwaiz1/cmp_luasnip' }, -- Optional
-            { 'hrsh7th/cmp-nvim-lua' }, -- Optional
+            { 'hrsh7th/cmp-nvim-lua' },     -- Optional
 
             -- Snippets
-            { 'L3MON4D3/LuaSnip' },     -- Required
+            {
+                'L3MON4D3/LuaSnip',
+                version = "v2.*",
+                build = "make install_jsregexp",
+            },                                  -- Required
             { 'rafamadriz/friendly-snippets' }, -- Optional
         }
     },
     { 'github/copilot.vim' },
     { 'windwp/nvim-ts-autotag' },
+    {
+        "iamcco/markdown-preview.nvim",
+        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+        build = "cd app && npm install",
+        init = function()
+            vim.g.mkdp_filetypes = { "markdown" }
+        end,
+        ft = { "markdown" },
+    },
     -- probably install harpoon?
     -- probably install undotree?
 })
