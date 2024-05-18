@@ -85,42 +85,55 @@ cmp.setup({
 
 lspconfig.gopls.setup({
     settings = {
-      gopls = {
-        ["ui.inlayhint.hints"] = {
-          compositeLiteralFields = true,
-          constantValues = true,
-          parameterNames = true
+        gopls = {
+            ["ui.inlayhint.hints"] = {
+                compositeLiteralFields = true,
+                constantValues = true,
+                parameterNames = true
+            },
         },
-      },
     },
- })
+})
 
 lspconfig.tsserver.setup({
     settings = {
-    javascript = {
-      inlayHints = {
-        includeInlayEnumMemberValueHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayVariableTypeHints = false,
-      },
-    },
+        javascript = {
+            inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = false,
+            },
+        },
 
-    typescript = {
-      inlayHints = {
-        includeInlayEnumMemberValueHints = true,
-        includeInlayFunctionLikeReturnTypeHints = true,
-        includeInlayFunctionParameterTypeHints = true,
-        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-        includeInlayPropertyDeclarationTypeHints = true,
-        includeInlayVariableTypeHints = false,
-      },
+        typescript = {
+            inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = false,
+            },
+        },
     },
-  },
+})
+
+lspconfig.rust_analyzer.setup({
+    settings = {
+        ['rust-analyzer'] = {
+            inlayHints = {
+                lifetimeElisionHints = {
+                    enable = true,
+                    useParameterNames = true
+                }
+            },
+        },
+    },
 })
 
 lsp.on_attach(function(client, bufnr)
@@ -129,9 +142,9 @@ lsp.on_attach(function(client, bufnr)
 
     -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
     if client.server_capabilities.inlayHintProvider then
-        vim.lsp.inlay_hint.enable(true, {bufnr})
-        set("n", "si",  function ()
-          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), {bufnr})
+        vim.lsp.inlay_hint.enable(true, { bufnr })
+        set("n", "si", function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr })
         end, opts)
     end
 
@@ -144,7 +157,7 @@ lsp.on_attach(function(client, bufnr)
     set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, opts)
     set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
     set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
-    set('n', '<leader>f', function() vim.lsp.buf.format({async = true}) end, opts)
+    set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
     set('n', '<leader>n', ':bnext<CR>', opts)
     set('n', '<leader>m', ':bprevious<CR>', opts)
     -- this is for call hierarchy
