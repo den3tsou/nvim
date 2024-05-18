@@ -153,6 +153,13 @@ lsp.on_attach(function(client, bufnr)
     set('n', 'gdd', function() vim.diagnostic.open_float() end, opts)
     set('n', 'gdp', function() vim.diagnostic.goto_prev() end, opts)
     set('n', 'gdn', function() vim.diagnostic.goto_next() end, opts)
+
+    require("lsp_signature").on_attach({
+        bind = true,
+        handler_opts = {
+            border = "rounded"
+        }
+    }, bufnr)
 end)
 
 
