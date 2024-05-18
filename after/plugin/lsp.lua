@@ -1,6 +1,7 @@
 -- Learn the keybindings, see :help lsp-zero-keybindings
 -- Learn to configure LSP servers, see :help lsp-zero-api-showcase
 local lsp = require('lsp-zero')
+local lspconfig = require("lspconfig")
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
@@ -82,17 +83,60 @@ cmp.setup({
     },
 })
 
+lspconfig.gopls.setup({
+    settings = {
+      gopls = {
+        ["ui.inlayhint.hints"] = {
+          compositeLiteralFields = true,
+          constantValues = true,
+          parameterNames = true
+        },
+      },
+    },
+ })
+
+lspconfig.tsserver.setup({
+    settings = {
+    javascript = {
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = false,
+      },
+    },
+
+    typescript = {
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = false,
+      },
+    },
+  },
+})
 
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr }
     local set = vim.keymap.set
 
     -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
+    if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable(true)
+        set("n", "si", '<CMD>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>')
+    end
 
     set('n', 'H', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
     set('n', '<C-]>', '<CMD>lua vim.lsp.buf.definition()<CR>', opts)
     set('n', '<C-[>', '<CMD>lua vim.lsp.buf.type_definition()<CR>', opts)
-    -- set('n', '<C-[>', '<CMD>lua vim.lsp.buf.declaration()<CR>', opts)
+    set('n', '<C-\\>', '<CMD>lua vim.lsp.buf.declaration()<CR>', opts)
     set('n', 'gi', '<CMD>lua vim.lsp.buf.implementation()<CR>', opts)
     set('n', 'gr', '<CMD>lua vim.lsp.buf.references()<CR>', opts)
     set('n', '<C-k>', '<CMD>lua vim.lsp.buf.signature_help()<CR>', opts)
