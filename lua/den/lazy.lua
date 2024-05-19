@@ -70,7 +70,8 @@ require("lazy").setup({
         event = "VeryLazy",
         opts = {},
         config = function(_, opts) require 'lsp_signature'.setup(opts) end
-    }
+    },
+    { 'nvim-telescope/telescope-ui-select.nvim' },
     -- probably install harpoon?
     -- probably install undotree?
 })
