@@ -72,11 +72,11 @@ require("lazy").setup({
         config = function(_, opts) require 'lsp_signature'.setup(opts) end
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-        opts = {},
-    }
+    -- {
+    --     "pmizio/typescript-tools.nvim",
+    --     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    --     opts = {},
+    -- }
     -- probably install harpoon?
     -- probably install undotree?
 })
