@@ -12,7 +12,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    { 'folke/tokyonight.nvim' },
+    {
+        'folke/tokyonight.nvim',
+        opts = {
+            style = "night",
+        },
+    },
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.5',
@@ -72,6 +77,7 @@ require("lazy").setup({
         config = function(_, opts) require 'lsp_signature'.setup(opts) end
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
+    { "folke/neodev.nvim",                      opts = {} },
     -- {
     --     "pmizio/typescript-tools.nvim",
     --     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },

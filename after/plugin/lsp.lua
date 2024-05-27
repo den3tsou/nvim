@@ -84,6 +84,17 @@ cmp.setup({
     },
 })
 
+require("neodev").setup({})
+lspconfig.lua_ls.setup({
+  settings = {
+    Lua = {
+      completion = {
+        callSnippet = "Replace"
+      }
+    }
+  }
+})
+
 lspconfig.gopls.setup({
     settings = {
         gopls = {
