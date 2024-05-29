@@ -62,4 +62,5 @@ vim.keymap.set("i", "jk", "<ESC>")
 vim.opt.scrolloff = 8
 
 -- vim.opt.colorcolumn = "80"
-
+vim.opt.termguicolors = true
+vim.cmd.colorscheme('tokyonight')

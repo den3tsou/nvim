@@ -28,36 +28,16 @@ require("lazy").setup({
     { 'nvim-treesitter/nvim-treesitter',          build = ':TSUpdate' },
     { 'tpope/vim-fugitive' },
     {
-        'VonHeikemen/lsp-zero.nvim',
-        branch = 'v3.x',
-        dependencies = {
-            -- LSP Support
-            {
-                'neovim/nvim-lspconfig', -- Required
-                -- this can be enabled on neovim 0.10 is used
-                -- opts = {
-                --   inlay_hints = { enabled = true }
-                -- }
-            },
-            { 'williamboman/mason.nvim' },           -- Optional
-            { 'williamboman/mason-lspconfig.nvim' }, -- Optional
-
-            -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },         -- Required
-            { 'hrsh7th/cmp-nvim-lsp' },     -- Required
-            { 'hrsh7th/cmp-buffer' },       -- Optional
-            { 'hrsh7th/cmp-path' },         -- Optional
-            { 'saadparwaiz1/cmp_luasnip' }, -- Optional
-            { 'hrsh7th/cmp-nvim-lua' },     -- Optional
-
-            -- Snippets
-            {
-                'L3MON4D3/LuaSnip',
-                version = "v2.*",
-                build = "make install_jsregexp",
-            },                                  -- Required
-            { 'rafamadriz/friendly-snippets' }, -- Optional
-        }
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig",
+    },
+    {
+        'hrsh7th/nvim-cmp',
+        'hrsh7th/cmp-nvim-lsp',
+        'hrsh7th/cmp-buffer',
+        'hrsh7th/cmp-path',
+        'hrsh7th/cmp-nvim-lua',
     },
     { 'github/copilot.vim' },
     { 'windwp/nvim-ts-autotag' },
@@ -77,7 +57,7 @@ require("lazy").setup({
         config = function(_, opts) require 'lsp_signature'.setup(opts) end
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { "folke/neodev.nvim",                      opts = {} },
+    { "folke/neodev.nvim", opts = {} },
     -- {
     --     "pmizio/typescript-tools.nvim",
     --     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -87,6 +67,3 @@ require("lazy").setup({
     -- probably install undotree?
 })
 
--- TODO: find a better place for this
-vim.opt.termguicolors = true
-vim.cmd.colorscheme('tokyonight')

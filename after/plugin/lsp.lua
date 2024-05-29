@@ -1,12 +1,15 @@
--- Learn the keybindings, see :help lsp-zero-keybindings
--- Learn to configure LSP servers, see :help lsp-zero-api-showcase
-local lsp = require('lsp-zero')
 local lspconfig = require("lspconfig")
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+local default_setup = function(server)
+  require('lspconfig')[server].setup({
+    capabilities = lsp_capabilities,
+  })
+end
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
     handlers = {
-        lsp.default_setup,
+        default_setup,
     },
     ensure_installed = {
         "gopls",
@@ -18,11 +21,6 @@ require('mason-lspconfig').setup({
     }
 })
 
-
-lsp.set_preferences({
-    set_lsp_keymaps = false,
-})
-
 local cmp = require('cmp')
 
 cmp.setup({
@@ -30,11 +28,10 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'buffer', keyword_length = 3 },
-        { name = 'luasnip', keyword_length = 2 },
     },
     snippet = {
         expand = function(args)
-            require('luasnip').lsp_expand(args.body)
+            vim.snippet.expand(args.body)
         end,
     },
     -- preselect = 'item',
@@ -72,7 +69,6 @@ cmp.setup({
         format = function(entry, item)
             local menu_icon = {
                 nvim_lsp = 'λ',
-                luasnip = '⋗',
                 buffer = 'Ω',
                 path = '🖫',
                 nvim_lua = 'Π',
@@ -85,6 +81,7 @@ cmp.setup({
 })
 
 require("neodev").setup({})
+
 lspconfig.lua_ls.setup({
   settings = {
     Lua = {
@@ -148,89 +145,91 @@ lspconfig.rust_analyzer.setup({
     },
 })
 
-lsp.on_attach(function(client, bufnr)
-    local opts = { buffer = bufnr }
-    local set = vim.keymap.set
+-- vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+-- vim.keymap.set('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+-- vim.keymap.set('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
 
-    -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
-    if client.server_capabilities.inlayHintProvider then
-        vim.lsp.inlay_hint.enable(true, { bufnr })
-        set("n", "si", function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr })
-        end, opts)
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    callback = function (args)
+        local bufnr = args.buf
+        local opts = {buffer = bufnr}
+        local set = vim.keymap.set
+        local client = vim.lsp.get_client_by_id(args.data.client)
+
+        -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
+        if client ~= nil and client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr })
+            set("n", "si", function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr })
+            end, opts)
+        end
+
+        set('n', 'H', function() vim.lsp.buf.hover() end, opts)
+        set('n', '<C-]>', function() vim.lsp.buf.definition() end, opts)
+        set('n', '<C-[>', function() vim.lsp.buf.type_definition() end, opts)
+        set('n', '<C-\\>', function() vim.lsp.buf.declaration() end, opts)
+        set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
+        set('n', 'gr', function() vim.lsp.buf.references() end, opts)
+        set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, opts)
+        set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
+        set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
+        set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
+        set('n', '<leader>n', ':bnext<CR>', opts)
+        set('n', '<leader>m', ':bprevious<CR>', opts)
+        -- this is for call hierarchy
+        set('n', 'ghi', function() vim.lsp.buf.incoming_calls() end, opts)
+        set('n', 'gho', function() vim.lsp.buf.outgoing_calls() end, opts)
+        set('n', 'gdd', function() vim.diagnostic.open_float() end, opts)
+        set('n', 'gdp', function() vim.diagnostic.goto_prev() end, opts)
+        set('n', 'gdn', function() vim.diagnostic.goto_next() end, opts)
+
+        require("lsp_signature").on_attach({
+            bind = true,
+            handler_opts = {
+                border = "rounded"
+            }
+        }, bufnr)
     end
+})
 
-    set('n', 'H', function() vim.lsp.buf.hover() end, opts)
-    set('n', '<C-]>', function() vim.lsp.buf.definition() end, opts)
-    set('n', '<C-[>', function() vim.lsp.buf.type_definition() end, opts)
-    set('n', '<C-\\>', function() vim.lsp.buf.declaration() end, opts)
-    set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
-    set('n', 'gr', function() vim.lsp.buf.references() end, opts)
-    set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, opts)
-    set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
-    set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
-    set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
-    set('n', '<leader>n', ':bnext<CR>', opts)
-    set('n', '<leader>m', ':bprevious<CR>', opts)
-    -- this is for call hierarchy
-    set('n', 'ghi', function() vim.lsp.buf.incoming_calls() end, opts)
-    set('n', 'gho', function() vim.lsp.buf.outgoing_calls() end, opts)
-    set('n', 'gdd', function() vim.diagnostic.open_float() end, opts)
-    set('n', 'gdp', function() vim.diagnostic.goto_prev() end, opts)
-    set('n', 'gdn', function() vim.diagnostic.goto_next() end, opts)
+-- lsp.on_attach(function(client, bufnr)
+--     local opts = { buffer = bufnr }
+--     local set = vim.keymap.set
+--
+--     -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
+--     if client.server_capabilities.inlayHintProvider then
+--         vim.lsp.inlay_hint.enable(true, { bufnr })
+--         set("n", "si", function()
+--             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr })
+--         end, opts)
+--     end
+--
+--     set('n', 'H', function() vim.lsp.buf.hover() end, opts)
+--     set('n', '<C-]>', function() vim.lsp.buf.definition() end, opts)
+--     set('n', '<C-[>', function() vim.lsp.buf.type_definition() end, opts)
+--     set('n', '<C-\\>', function() vim.lsp.buf.declaration() end, opts)
+--     set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
+--     set('n', 'gr', function() vim.lsp.buf.references() end, opts)
+--     set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, opts)
+--     set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
+--     set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
+--     set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
+--     set('n', '<leader>n', ':bnext<CR>', opts)
+--     set('n', '<leader>m', ':bprevious<CR>', opts)
+--     -- this is for call hierarchy
+--     set('n', 'ghi', function() vim.lsp.buf.incoming_calls() end, opts)
+--     set('n', 'gho', function() vim.lsp.buf.outgoing_calls() end, opts)
+--     set('n', 'gdd', function() vim.diagnostic.open_float() end, opts)
+--     set('n', 'gdp', function() vim.diagnostic.goto_prev() end, opts)
+--     set('n', 'gdn', function() vim.diagnostic.goto_next() end, opts)
+--
+--     require("lsp_signature").on_attach({
+--         bind = true,
+--         handler_opts = {
+--             border = "rounded"
+--         }
+--     }, bufnr)
+-- end)
 
-    require("lsp_signature").on_attach({
-        bind = true,
-        handler_opts = {
-            border = "rounded"
-        }
-    }, bufnr)
-end)
-
-lsp.setup()
-
--- require("typescript-tools").setup {
---     settings = {
---     -- spawn additional tsserver instance to calculate diagnostics on it
---     separate_diagnostic_server = true,
---     -- "change"|"insert_leave" determine when the client asks the server about diagnostic
---     publish_diagnostic_on = "insert_leave",
---     -- array of strings("fix_all"|"add_missing_imports"|"remove_unused"|
---     -- "remove_unused_imports"|"organize_imports") -- or string "all"
---     -- to include all supported code actions
---     -- specify commands exposed as code_actions
---     expose_as_code_action = {},
---     -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
---     -- not exists then standard path resolution strategy is applied
---     tsserver_path = nil,
---     -- specify a list of plugins to load by tsserver, e.g., for support `styled-components`
---     -- (see 💅 `styled-components` support section)
---     tsserver_plugins = {},
---     -- this value is passed to: https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes
---     -- memory limit in megabytes or "auto"(basically no limit)
---     tsserver_max_memory = "auto",
---     -- described below
---     tsserver_format_options = {},
---     tsserver_file_preferences = {},
---     -- locale of all tsserver messages, supported locales you can find here:
---     -- https://github.com/microsoft/TypeScript/blob/3c221fc086be52b19801f6e8d82596d04607ede6/src/compiler/utilitiesPublic.ts#L620
---     tsserver_locale = "en",
---     -- mirror of VSCode's `typescript.suggest.completeFunctionCalls`
---     complete_function_calls = false,
---     include_completions_with_insert_text = true,
---     -- CodeLens
---     -- WARNING: Experimental feature also in VSCode, because it might hit performance of server.
---     -- possible values: ("off"|"all"|"implementations_only"|"references_only")
---     code_lens = "off",
---     -- by default code lenses are displayed on all referencable values and for some of you it can
---     -- be too much this option reduce count of them by removing member references from lenses
---     disable_member_code_lens = true,
---     -- JSXCloseTag
---     -- WARNING: it is disabled by default (maybe you configuration or distro already uses nvim-ts-autotag,
---     -- that maybe have a conflict if enable this feature. )
---     jsx_close_tag = {
---         enable = false,
---         filetypes = { "javascriptreact", "typescriptreact" },
---     }
---   },
--- }
+-- lsp.setup()
