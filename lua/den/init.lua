@@ -1,2 +1,2 @@
-require("den.lazy")
 require("den.set")
+require("den.lazy")

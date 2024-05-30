@@ -66,4 +66,5 @@ require("lazy").setup({
     -- probably install harpoon?
     -- probably install undotree?
 })
-
+vim.opt.termguicolors = true
+vim.cmd.colorscheme('tokyonight')
