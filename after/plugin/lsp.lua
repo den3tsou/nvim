@@ -170,7 +170,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
         set('n', '<C-[>', function() vim.lsp.buf.type_definition() end, opts)
         set('n', '<C-\\>', function() vim.lsp.buf.declaration() end, opts)
         set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
-        set('n', 'gr', function() vim.lsp.buf.references() end, opts)
+        set('n', 'gr', function() require('telescope.builtin').lsp_references() end, opts)
+        -- replace by the above command
+        -- set('n', 'gr', function() vim.lsp.buf.references() end, opts)
         set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, opts)
         set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
         set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
