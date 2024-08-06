@@ -42,15 +42,6 @@ require("lazy").setup({
     { 'github/copilot.vim' },
     { 'windwp/nvim-ts-autotag' },
     {
-        "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        build = "cd app && npm install",
-        init = function()
-            vim.g.mkdp_filetypes = { "markdown" }
-        end,
-        ft = { "markdown" },
-    },
-    {
         "ray-x/lsp_signature.nvim",
         event = "VeryLazy",
         opts = {},
