@@ -23,6 +23,10 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.wrap = false
 
+-- spell check for british english
+vim.opt.spell = true
+vim.opt.spelllang = "en_gb"
+
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { "*" },
   callback = function(args)
