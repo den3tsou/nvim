@@ -159,7 +159,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
         -- vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
         if client ~= nil and client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true, { bufnr })
+            vim.lsp.inlay_hint.enable(false, { bufnr })
             set("n", "si", function()
                 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(), { bufnr })
             end, opts)
