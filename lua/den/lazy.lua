@@ -48,7 +48,14 @@ require("lazy").setup({
         config = function(_, opts) require 'lsp_signature'.setup(opts) end
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { "folke/neodev.nvim", opts = {} },
+    { "folke/neodev.nvim",                      opts = {} },
+    -- buildin comment doesn't have good support for typescript. This one helps with that
+    {
+        "folke/ts-comments.nvim",
+        opts = {},
+        event = "VeryLazy",
+        -- enabled = vim.fn.has("nvim-0.10.0") == 1,
+    }
     -- {
     --     "pmizio/typescript-tools.nvim",
     --     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
