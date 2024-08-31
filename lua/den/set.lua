@@ -62,6 +62,10 @@ vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
 
 vim.keymap.set("i", "jk", "<ESC>")
 
+-- For full path
+-- vim.keymap.set("n", "cp", "let @\" = expand(\"%:p\")");
+vim.keymap.set("n", "cp", ":let @* = expand(\"%\")<CR>");
+
 -- this will make sure that the cursor will not reach the bottom line
 vim.opt.scrolloff = 8
 
