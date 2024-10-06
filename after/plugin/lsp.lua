@@ -13,7 +13,7 @@ require('mason-lspconfig').setup({
     },
     ensure_installed = {
         "gopls",
-        "tsserver",
+        "ts_ls",
         "rust_analyzer",
         "eslint",
         "clangd",
@@ -22,9 +22,12 @@ require('mason-lspconfig').setup({
 })
 
 local cmp = require('cmp')
+local luasnip = require('luasnip')
+require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({
     sources = {
+        { name = 'luasnip' },
         { name = 'nvim_lsp' },
         { name = 'path' },
         { name = 'buffer', keyword_length = 3 },
@@ -32,6 +35,7 @@ cmp.setup({
     snippet = {
         expand = function(args)
             vim.snippet.expand(args.body)
+            luasnip.lsp_expend(args.body)
         end,
     },
     -- preselect = 'item',
@@ -72,6 +76,7 @@ cmp.setup({
                 buffer = 'Ω',
                 path = '🖫',
                 nvim_lua = 'Π',
+                luasnip = 'S',
             }
 
             item.menu = menu_icon[entry.source.name]
@@ -104,7 +109,7 @@ lspconfig.gopls.setup({
     },
 })
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
     settings = {
         javascript = {
             inlayHints = {
