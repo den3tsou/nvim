@@ -18,6 +18,7 @@ require('mason-lspconfig').setup({
         "eslint",
         "clangd",
         "lua_ls",
+        "terraform-ls",
     }
 })
 
