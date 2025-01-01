@@ -175,6 +175,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         set('n', '<C-]>', function() vim.lsp.buf.definition() end, opts)
         set('n', '<C-[>', function() vim.lsp.buf.type_definition() end, opts)
         set('n', '<C-\\>', function() vim.lsp.buf.declaration() end, opts)
+        -- The following is only for typescript
+        set('n', '<leader>s', ':TSToolsGoToSourceDefinition<CR>', opts)
         set('n', 'gi', function() vim.lsp.buf.implementation() end, opts)
         set('n', 'gr', function() require('telescope.builtin').lsp_references() end, opts)
         -- replace by the above command
