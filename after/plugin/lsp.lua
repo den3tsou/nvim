@@ -1,15 +1,15 @@
 local lspconfig = require("lspconfig")
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-local default_setup = function(server)
-  require('lspconfig')[server].setup({
-    capabilities = lsp_capabilities,
-  })
-end
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
     handlers = {
-        default_setup,
+        function(server)
+            require('lspconfig')[server].setup({
+                capabilities = lsp_capabilities,
+            })
+        end,
+        ["ts_ls"] = function() end, -- handled by `typescript_tools.lua`
     },
     ensure_installed = {
         "gopls",
@@ -31,7 +31,7 @@ cmp.setup({
         { name = 'luasnip' },
         { name = 'nvim_lsp' },
         { name = 'path' },
-        { name = 'buffer', keyword_length = 3 },
+        { name = 'buffer',  keyword_length = 3 },
     },
     snippet = {
         expand = function(args)
@@ -67,6 +67,7 @@ cmp.setup({
         end),
     },
     formatting = {
+        expandable_indicator = true,
         -- changing the order of fields so the icon is the first
         fields = { 'menu', 'abbr', 'kind' },
 
@@ -87,13 +88,13 @@ cmp.setup({
 })
 
 lspconfig.lua_ls.setup({
-  settings = {
-    Lua = {
-      completion = {
-        callSnippet = "Replace"
-      }
+    settings = {
+        Lua = {
+            completion = {
+                callSnippet = "Replace"
+            }
+        }
     }
-  }
 })
 
 lspconfig.gopls.setup({
@@ -108,10 +109,30 @@ lspconfig.gopls.setup({
     },
 })
 
-lspconfig.ts_ls.setup({
+require("typescript-tools").setup {
     settings = {
-        javascript = {
-            inlayHints = {
+        -- spawn additional tsserver instance to calculate diagnostics on it
+        separate_diagnostic_server = true,
+        -- "change"|"insert_leave" determine when the client asks the server about diagnostic
+        publish_diagnostic_on = "insert_leave",
+        -- array of strings("fix_all"|"add_missing_imports"|"remove_unused"|
+        -- "remove_unused_imports"|"organize_imports") -- or string "all"
+        -- to include all supported code actions
+        -- specify commands exposed as code_actions
+        expose_as_code_action = "all",
+        -- string|nil - specify a custom path to `tsserver.js` file, if this is nil or file under path
+        -- not exists then standard path resolution strategy is applied
+        tsserver_path = nil,
+        -- specify a list of plugins to load by tsserver, e.g., for support `styled-components`
+        -- (see 💅 `styled-components` support section)
+        tsserver_plugins = {},
+        -- this value is passed to: https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes
+        -- memory limit in megabytes or "auto"(basically no limit)
+        tsserver_max_memory = "auto",
+        -- described below
+        tsserver_format_options = {},
+        tsserver_file_preferences = function(ft)
+            return {
                 includeInlayEnumMemberValueHints = true,
                 includeInlayFunctionLikeReturnTypeHints = true,
                 includeInlayFunctionParameterTypeHints = true,
@@ -119,22 +140,58 @@ lspconfig.ts_ls.setup({
                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
                 includeInlayPropertyDeclarationTypeHints = true,
                 includeInlayVariableTypeHints = false,
-            },
-        },
-
-        typescript = {
-            inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = false,
-            },
-        },
+            }
+        end,
+        -- locale of all tsserver messages, supported locales you can find here:
+        -- https://github.com/microsoft/TypeScript/blob/3c221fc086be52b19801f6e8d82596d04607ede6/src/compiler/utilitiesPublic.ts#L620
+        tsserver_locale = "en",
+        -- mirror of VSCode's `typescript.suggest.completeFunctionCalls`
+        complete_function_calls = false,
+        include_completions_with_insert_text = true,
+        -- CodeLens
+        -- WARNING: Experimental feature also in VSCode, because it might hit performance of server.
+        -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+        code_lens = "off",
+        -- by default code lenses are displayed on all referencable values and for some of you it can
+        -- be too much this option reduce count of them by removing member references from lenses
+        disable_member_code_lens = true,
+        -- JSXCloseTag
+        -- WARNING: it is disabled by default (maybe you configuration or distro already uses nvim-ts-autotag,
+        -- that maybe have a conflict if enable this feature. )
+        jsx_close_tag = {
+            enable = true,
+            filetypes = { "javascriptreact", "typescriptreact" },
+        }
     },
-})
+}
+-- handle by typescript_tools for now
+-- lspconfig.ts_ls.setup({
+--     settings = {
+--         javascript = {
+--             inlayHints = {
+--                 includeInlayEnumMemberValueHints = true,
+--                 includeInlayFunctionLikeReturnTypeHints = true,
+--                 includeInlayFunctionParameterTypeHints = true,
+--                 includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+--                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+--                 includeInlayPropertyDeclarationTypeHints = true,
+--                 includeInlayVariableTypeHints = false,
+--             },
+--         },
+--
+--         typescript = {
+--             inlayHints = {
+--                 includeInlayEnumMemberValueHints = true,
+--                 includeInlayFunctionLikeReturnTypeHints = true,
+--                 includeInlayFunctionParameterTypeHints = true,
+--                 includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+--                 includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+--                 includeInlayPropertyDeclarationTypeHints = true,
+--                 includeInlayVariableTypeHints = false,
+--             },
+--         },
+--     },
+-- })
 
 lspconfig.rust_analyzer.setup({
     settings = {
@@ -155,9 +212,9 @@ lspconfig.rust_analyzer.setup({
 
 vim.api.nvim_create_autocmd('LspAttach', {
     desc = 'LSP actions',
-    callback = function (args)
+    callback = function(args)
         local bufnr = args.buf
-        local opts = {buffer = bufnr}
+        local opts = { buffer = bufnr }
         local set = vim.keymap.set
         local client = vim.lsp.get_client_by_id(args.data.client_id)
 
@@ -200,4 +257,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
         }, bufnr)
     end
 })
-
