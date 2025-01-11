@@ -20,7 +20,7 @@ require("lazy").setup({
     },
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.5',
+        tag = '0.1.8',
         -- or                            , branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
@@ -48,7 +48,6 @@ require("lazy").setup({
         config = function(_, opts) require 'lsp_signature'.setup(opts) end
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
-    { "folke/neodev.nvim",                      opts = {} },
     -- buildin comment doesn't have good support for typescript. This one helps with that
     {
         "folke/ts-comments.nvim",
@@ -73,6 +72,17 @@ require("lazy").setup({
                 -- Configuration here, or leave empty to use defaults
             })
         end
+    },
+    {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
     },
     {
         "pmizio/typescript-tools.nvim",
