@@ -39,7 +39,7 @@ require("lazy").setup({
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-nvim-lua',
     },
-    { 'github/copilot.vim' },
+    -- { 'github/copilot.vim' },
     { 'windwp/nvim-ts-autotag' },
     {
         "ray-x/lsp_signature.nvim",

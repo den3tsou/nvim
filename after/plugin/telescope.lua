@@ -81,6 +81,18 @@ require("telescope").setup {
         },
     }),
     pickers = {
+        find_files = {
+            hidden = true
+        },
+        grep_string = {
+            additional_args = { "--hidden" }
+        },
+        live_grep = {
+            mappings = {
+                i = { ["<c-f>"] = actions.to_fuzzy_refine },
+            },
+            additional_args = { "--hidden" }
+        },
         buffers = {
             mappings = {
                 i = {
