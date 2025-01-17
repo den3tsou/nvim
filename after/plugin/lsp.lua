@@ -240,8 +240,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
         set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
         set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
-        set('n', '<leader>n', ':bnext<CR>', opts)
-        set('n', '<leader>m', ':bprevious<CR>', opts)
         -- this is for call hierarchy
         set('n', 'ghi', function() vim.lsp.buf.incoming_calls() end, opts)
         set('n', 'gho', function() vim.lsp.buf.outgoing_calls() end, opts)
