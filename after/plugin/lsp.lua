@@ -238,7 +238,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         -- set('n', 'gr', function() vim.lsp.buf.references() end, opts)
         set('n', '<C-k>', function() vim.lsp.buf.signature_help() end, opts)
         set('n', '<leader>rn', function() vim.lsp.buf.rename() end, opts)
-        set('n', '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
+        set({'n', 'v'}, '<leader>ca', function() vim.lsp.buf.code_action() end, opts)
         set('n', '<leader>f', function() vim.lsp.buf.format({ async = true }) end, opts)
         -- this is for call hierarchy
         set('n', 'ghi', function() vim.lsp.buf.incoming_calls() end, opts)
