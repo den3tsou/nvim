@@ -88,7 +88,8 @@ require("lazy").setup({
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {},
-    }
+    },
+    { 'smithbm2316/centerpad.nvim' },
     -- probably install harpoon?
     -- probably install undotree?
 })
