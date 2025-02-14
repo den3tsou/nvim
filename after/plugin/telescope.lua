@@ -4,6 +4,7 @@ vim.keymap.set('n', '<leader>p', function() builtin.find_files({ hidden = true }
 vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
 vim.keymap.set('n', 'gb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fc', builtin.commands, {})
+vim.keymap.set('n', '<leader>ff', builtin.lsp_document_symbols, {})
 vim.keymap.set('n', '<leader>fr', builtin.registers, {})
 vim.keymap.set('n', '<leader>fg', builtin.git_commits, {})
 vim.keymap.set('n', '<leader>fgb', builtin.git_bcommits, {})
