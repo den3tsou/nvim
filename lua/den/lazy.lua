@@ -89,7 +89,14 @@ require("lazy").setup({
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {},
     },
-    { 'smithbm2316/centerpad.nvim' },
+    {
+        "folke/zen-mode.nvim",
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        }
+    }
     -- probably install harpoon?
     -- probably install undotree?
 })
