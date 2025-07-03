@@ -1,7 +1,7 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- highlight while search, this may degrade the performance 
+-- highlight while search, this may degrade the performance
 vim.opt.hlsearch = true
 
 vim.opt.incsearch = true
@@ -28,19 +28,19 @@ vim.opt.spell = true
 vim.opt.spelllang = "en_gb"
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { "*" },
-  callback = function(args)
-    local ft = vim.bo[args.buf].filetype
-    if ft == "typescriptreact" then
-      vim.bo.tabstop = 2
-      vim.bo.shiftwidth = 2
-      vim.bo.softtabstop = 2
-    elseif ft == "typescript" then
-      vim.bo.tabstop = 2
-      vim.bo.shiftwidth = 2
-      vim.bo.softtabstop = 2
+    pattern = { "*" },
+    callback = function(args)
+        local ft = vim.bo[args.buf].filetype
+        if ft == "typescriptreact" then
+            vim.bo.tabstop = 2
+            vim.bo.shiftwidth = 2
+            vim.bo.softtabstop = 2
+        elseif ft == "typescript" then
+            vim.bo.tabstop = 2
+            vim.bo.shiftwidth = 2
+            vim.bo.softtabstop = 2
+        end
     end
-  end
 })
 
 vim.opt.swapfile = false
@@ -65,6 +65,9 @@ vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
 
 vim.keymap.set("i", "jk", "<ESC>")
 
+-- use for big screen. To crentre the right pane to the middle
+vim.keymap.set("n", "<leader>cc", ":vertical resize +60<CR>l")
+
 -- For full path
 -- vim.keymap.set("n", "cp", "let @\" = expand(\"%:p\")");
 vim.keymap.set("n", "cp", ":let @* = expand(\"%\")<CR>");
@@ -73,4 +76,8 @@ vim.keymap.set("n", "cp", ":let @* = expand(\"%\")<CR>");
 vim.opt.scrolloff = 8
 
 -- vim.opt.colorcolumn = "80"
+vim.diagnostic.config({
+    -- virtual_lines = true,
+    virtual_text = true,
 
+})
