@@ -1,2 +1,2 @@
 require("den.set")
-require("den.lazy")
+require("den.lazy_init")
