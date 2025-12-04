@@ -61,8 +61,6 @@ vim.keymap.set('n', '<leader>m', ':bprevious<CR>')
 
 vim.keymap.set("n", "q:", ":q")
 
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
-
 vim.keymap.set("i", "jk", "<ESC>")
 
 -- use for big screen. To crentre the right pane to the middle
