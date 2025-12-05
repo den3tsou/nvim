@@ -150,8 +150,7 @@ return {
                 set('n', 'ghi', function() vim.lsp.buf.incoming_calls() end, opts)
                 set('n', 'gho', function() vim.lsp.buf.outgoing_calls() end, opts)
                 set('n', 'gdd', function() vim.diagnostic.open_float() end, opts)
-                set('n', 'gdp', function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-                set('n', 'gdn', function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
+                set('n', 'gdl', function() require('telescope.builtin').diagnostics() end, opts)
 
                 require("lsp_signature").on_attach({
                     bind = true,
