@@ -59,11 +59,14 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set('n', '<leader>n', ':bnext<CR>')
 vim.keymap.set('n', '<leader>m', ':bprevious<CR>')
 
+vim.keymap.set("n", "<M-j>", ":cnext<CR>")
+vim.keymap.set("n", "<M-k>", ":cprev<CR>")
+
 vim.keymap.set("n", "q:", ":q")
 
 vim.keymap.set("i", "jk", "<ESC>")
 
--- use for big screen. To crentre the right pane to the middle
+-- use for big screen. To centre the right pane to the middle
 vim.keymap.set("n", "<leader>cc", ":vertical resize +60<CR>l")
 
 -- For full path
