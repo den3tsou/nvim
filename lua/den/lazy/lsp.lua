@@ -20,7 +20,7 @@ return {
         require('mason-lspconfig').setup({
             ensure_installed = {
                 "gopls",
-                "tsgo",
+                "vtsls",
                 "eslint",
                 "lua_ls",
                 "terraformls",
