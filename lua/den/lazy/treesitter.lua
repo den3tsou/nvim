@@ -31,9 +31,6 @@ return {
                 -- Instead of true it can also be a list of languages
                 additional_vim_regex_highlighting = false,
             },
-
-            -- This is for https://github.com/windwp/nvim-ts-autotag
-            autotag = { enable = true },
         })
 
         -- to fold
