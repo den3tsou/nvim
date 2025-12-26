@@ -21,7 +21,6 @@ return {
             ensure_installed = {
                 "gopls",
                 "vtsls",
-                "eslint",
                 "lua_ls",
                 "terraformls",
             },
