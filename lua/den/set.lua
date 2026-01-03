@@ -58,6 +58,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 vim.keymap.set('n', '<leader>n', ':bnext<CR>')
 vim.keymap.set('n', '<leader>m', ':bprevious<CR>')
+vim.keymap.set('n', '<leader>w', ':update<CR>')
+vim.keymap.set('n', '<leader>q', ':q<CR>')
+vim.keymap.set('n', '<leader>cq', ':cclose<CR>')
 
 vim.keymap.set("n", "<M-n>", ":cnext<CR>")
 vim.keymap.set("n", "<M-p>", ":cprev<CR>")
