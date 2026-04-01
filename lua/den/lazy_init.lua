@@ -13,5 +13,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     spec = "den.lazy",
-    changedetection = { enabled = false }
+    changedetection = { enabled = false },
+    rocks = {
+        enabled = false,
+    }
 })

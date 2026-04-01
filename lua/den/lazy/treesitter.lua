@@ -1,44 +1,56 @@
 return {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
+    lazy = false,
     build = ':TSUpdate',
-
+    version = false,
+    dependencies = {
+        'nvim-treesitter/nvim-treesitter-context',
+    },
     config = function()
-        require('nvim-treesitter.configs').setup({
-            ensure_installed = {
-                "lua",
-                "vim",
-                "javascript",
-                "typescript",
-                "go",
-                "diff",
-                "git_rebase",
-            },
+        local treesitter = require('nvim-treesitter')
+        local treesitter_dir = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/"
 
-            -- Install parsers synchronously (only applied to `ensure_installed`)
-            sync_install = false,
+        local parsers = {
+            "lua",
+            "vim",
+            'vimdoc',
+            "javascript",
+            "typescript",
+            "go",
+            "diff",
+            "git_rebase",
+            'bash',
+            'c',
+            'diff',
+            'html',
+            'luadoc',
+            'markdown',
+            'markdown_inline',
+        }
 
-            -- Automatically install missing parsers when entering buffer
-            -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-            auto_install = true,
+        treesitter.install(parsers)
 
-            highlight = {
-                -- `false` will disable the whole extension
-                enable = true,
+        dofile(treesitter_dir .. "plugin/filetypes.lua")
+        local file_types = vim.iter(parsers)
+            :map(function(parser)
+                return vim.treesitter.language.get_filetypes(parser)
+            end)
+            :flatten()
+            :totable()
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = file_types,
+            callback = function(args)
+                -- Highlights
+                vim.treesitter.start()
 
-                -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-                -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-                -- Using this option may slow down your editor, and you may see some duplicate highlights.
-                -- Instead of true it can also be a list of languages
-                additional_vim_regex_highlighting = false,
-            },
+                -- Folds
+                vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+                vim.wo[0][0].foldmethod = "expr"
+
+                -- Indentation
+                vim.bo[args.buf].indentexpr = "v:lua.require\"nvim-treesitter\".indentexpr()"
+            end,
         })
-
-        -- to fold
-        -- za for single
-        -- zM for all
-        -- zR to revert all folding
-        vim.opt.foldlevel = 20
-        vim.opt.foldmethod = "expr"
-        vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
     end,
 }

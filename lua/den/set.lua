@@ -79,6 +79,9 @@ vim.keymap.set("n", "cp", ":let @* = expand(\"%\")<CR>");
 -- this will make sure that the cursor will not reach the bottom line
 vim.opt.scrolloff = 8
 
+-- use to make sure fold doesn't fold all by default
+vim.opt.foldlevelstart = 99
+
 -- vim.opt.colorcolumn = "80"
 vim.diagnostic.config({
     -- virtual_lines = true,
