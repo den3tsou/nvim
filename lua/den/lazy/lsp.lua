@@ -158,6 +158,23 @@ return {
                     end, opts)
                 end
 
+                if client ~= nil and client.name == "vtsls" then
+                    set('n', 'gs', function ()
+                        local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+                        client:exec_cmd({
+                            title = "Go to Source Definition",
+                            command = "typescript.goToSourceDefinition",
+                            arguments = { params.textDocument.uri, params.position },
+                        }, { bufnr = bufnr }, function (_, result)
+                            if not result or vim.tbl_isempty(result) then
+                                vim.notify("No source definition found", vim.log.levels.INFO)
+                                return
+                            end
+                            vim.lsp.util.show_document(result[1], client.offset_encoding, { focus = true })
+                        end)
+                    end, opts)
+                end
+
                 set('n', 'H', function() vim.lsp.buf.hover() end, opts)
                 set('n', '<C-]>', function() vim.lsp.buf.definition() end, opts)
                 set('n', '<C-[>', function() vim.lsp.buf.type_definition() end, opts)
